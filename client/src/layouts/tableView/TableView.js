@@ -17,6 +17,8 @@ const TableView = (props) => {
             <tbody>
                 {
                     props.data.map(item => (<TableRowItem
+                        key={item.id}
+                        removeContact={props.removeContact}
                         contact={item}
                     />))
                 }
