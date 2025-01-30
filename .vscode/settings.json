@@ -1,5 +1,7 @@
 {
     "cSpell.words": [
+        "springframework",
         "Заметкa"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }
