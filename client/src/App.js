@@ -29,14 +29,7 @@ const App = () => {
   }, [])
 
   const appendContact = (fullName, telephone, notes) => {
-    // let currentId = 0;
-    // const length = items.length;
 
-    // if (length === 0) {
-    //   currentId = 1;
-    // } else {
-    //   currentId = items[items.length - 1].id + 1;
-    // }
     const temp = {
       // id: currentId,
       fullName: fullName,
