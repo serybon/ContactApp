@@ -1,33 +1,56 @@
 import './App.css';
 import FormNewItem from './layouts/formNewItem/FormNewItem';
 import TableView from './layouts/tableView/TableView';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+
 
 const App = () => {
-  const [items, setItems] = useState([
-    { id: 1, fullName: "ФИО 1", telephone: "+2222222220", notes: "Заметкa 1" },
-    { id: 2, fullName: "ФИО 2", telephone: "+1010101010", notes: "Заметкa 2" },
-    { id: 3, fullName: "ФИО 3", telephone: "+1010101010", notes: "Заметкa 3" },
-    { id: 4, fullName: "ФИО 4", telephone: "+1010101010", notes: "Заметкa 4" }
-  ])
-  const appendContact = (fullName, telephone, notes) => {
-    let currentId = 0;
-    const length = items.length;
 
-    if (length === 0) {
-      currentId = 1;
-    } else {
-      currentId = items[items.length - 1].id + 1;
-    }
+  const [items, setItems] = useState([])
+
+  useEffect(() => {
+    axios.get('http://localhost:8082/api/contacts')
+      .then(res => {
+        const data = [];
+        res.data._embedded.contacts.forEach(item => {
+          data.push(
+            {
+              id: item.id,
+              fullName: item.fullName,
+              telephone: item.telephone,
+              notes: item.notes
+            }
+          )
+        })
+        setItems(data);
+      })
+  }, [])
+
+  const appendContact = (fullName, telephone, notes) => {
+    // let currentId = 0;
+    // const length = items.length;
+
+    // if (length === 0) {
+    //   currentId = 1;
+    // } else {
+    //   currentId = items[items.length - 1].id + 1;
+    // }
     const temp = {
-      id: currentId,
+      // id: currentId,
       fullName: fullName,
       telephone: telephone,
       notes: notes
     };
+    const url = `http://localhost:8082/api/contacts`;
+    axios.post(url, temp)
     setItems([...items, temp]);
   }
   const removeContact = (id) => {
+    const url = `http://localhost:8082/api/contacts/${id}`;
+    axios.delete(url);
+
     setItems(items.filter(item => item.id !== id));
 
   }
